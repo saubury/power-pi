@@ -48,20 +48,16 @@ def logmsg(msg):
 def light_pulse_seen_1():
     global l_cnt_1
     global l_verbosemode
+    l_cnt_1 = l_cnt_1 + 1
     if l_verbosemode:
-        l_cnt_1 = l_cnt_1 + 1
         logmsg("      light_pulse_seen_1 {}".format(l_cnt_1))
-    else:
-        l_cnt_1 = l_cnt_1 + l_hr_rate_multiply
 
 def light_pulse_seen_2():
     global l_cnt_2
     global l_verbosemode
+    l_cnt_2 = l_cnt_2 + 1
     if l_verbosemode:
-        l_cnt_2 = l_cnt_2 + 1
         logmsg("      light_pulse_seen_2 {}".format(l_cnt_2))
-    else:
-        l_cnt_2 = l_cnt_2 + l_hr_rate_multiply
         
 def handle_time_event():
     global l_cnt_1
