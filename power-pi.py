@@ -16,13 +16,13 @@ l_gpio_temp = 22
 l_cnt_1 = 0
 l_cnt_2 = 0
 l_out_file = "/share/power-pi/power-pi.txt"
-l_poll_minutes = 5
+l_poll_minutes = 15
 l_hr_rate_multiply = (60 / l_poll_minutes)
 l_verbosemode = False
 
 
 def insert_row(measurement):
-    sql = '''INSERT INTO measure_history (temperature, humidity, sensor_count_1, sensor_count_2) VALUES (?,?,?,?)'''
+    sql = '''INSERT INTO measure_history (temperature, humidity, sensor_count_1, sensor_count_2, sensor_1_rate_mwh, sensor_2_rate_mwh) VALUES (?,?,?,?,?,?)'''
     conn = sqlite3.connect(DATABASE)
     with conn:
         cur = conn.cursor()
@@ -64,7 +64,7 @@ def handle_time_event():
     global l_cnt_2
     l_humidity, l_temperature = Adafruit_DHT.read_retry(l_temp_sensor_type, l_gpio_temp)
     logmsg("Pulses={},{} Temp={:0.1f}C  l_humidity={:0.1f}%".format(l_cnt_1, l_cnt_2, l_temperature, l_humidity))
-    measurement = (l_temperature, l_humidity, l_cnt_1, l_cnt_2)
+    measurement = (l_temperature, l_humidity, l_cnt_1, l_cnt_2, l_cnt_1*l_hr_rate_multiply , l_cnt_2*l_hr_rate_multiply )
     insert_row(measurement)
     l_cnt_1 = 0
     l_cnt_2 = 0
