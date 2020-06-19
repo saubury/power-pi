@@ -1,0 +1,12 @@
+[Unit]
+Description=Power monitoring with a Raspberry Pi
+After=multi-user.target
+
+[Service]
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/git/power-pi
+ExecStart=/usr/bin/python /home/pi/git/power-pi/power-pi.py
+
+[Install]
+WantedBy=multi-user.target
