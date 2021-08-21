@@ -3,7 +3,7 @@ Flask==0.12.2
 Jinja2==2.9.6
 MarkupSafe==1.0
 RPi.GPIO==0.6.3
-Werkzeug==0.12.2
+Werkzeug==0.15.3
 argparse==1.2.1
 chardet==2.3.0
 click==6.7
