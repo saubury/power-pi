@@ -6,6 +6,10 @@ import Adafruit_DHT
 import schedule
 import argparse
 import sqlite3
+import config
+import json
+import paho.mqtt.publish as publish
+
 
 DATABASE = '/share/power-pi/database/power-sqlite.db'
 
@@ -16,9 +20,27 @@ l_gpio_temp = 22
 l_cnt_1 = 0
 l_cnt_2 = 0
 l_out_file = "/share/power-pi/power-pi.txt"
-l_poll_minutes = 15
+l_poll_minutes = 1
 l_hr_rate_multiply = (60 / l_poll_minutes)
 l_verbosemode = False
+
+# MQTT Producer
+mqtt_broker=config.mqtt_broker
+mqtt_port=config.mqtt_port
+mqtt_auth = {'username':config.mqtt_username, 'password':config.mqtt_password}
+mqtt_topic='power/powerboard'
+
+def do_mqtt_produce(measurement):
+    json_payload=json.dumps({"temperature": measurement[0]
+    , "humidity": measurement[1]
+    , "sensor_count_1": measurement[2]
+    , "sensor_count_2": measurement[3]
+    , "sensor_1_rate_mwh": measurement[4]
+    , "sensor_2_rate_mwh": measurement[5]
+    })
+
+    # MQTT Publish
+    publish.single(topic=mqtt_topic, payload=json_payload, hostname=mqtt_broker, port=mqtt_port, auth=mqtt_auth)
 
 
 def insert_row(measurement):
@@ -66,6 +88,7 @@ def handle_time_event():
     logmsg("Pulses={},{} Temp={:0.1f}C  l_humidity={:0.1f}%".format(l_cnt_1, l_cnt_2, l_temperature, l_humidity))
     measurement = (l_temperature, l_humidity, l_cnt_1, l_cnt_2, l_cnt_1*l_hr_rate_multiply , l_cnt_2*l_hr_rate_multiply )
     insert_row(measurement)
+    do_mqtt_produce(measurement)
     l_cnt_1 = 0
     l_cnt_2 = 0
 
