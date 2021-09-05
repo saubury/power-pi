@@ -7,6 +7,8 @@ User=pi
 Group=pi
 WorkingDirectory=/home/pi/git/power-pi
 ExecStart=/usr/bin/python /home/pi/git/power-pi/power-pi.py
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target
