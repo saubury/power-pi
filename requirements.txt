@@ -18,7 +18,7 @@ pyOpenSSL==0.13.1
 pyasn1==0.1.7
 pycrypto==2.6.1
 python-apt==0.9.3.12
-requests==2.4.3
+requests==2.20.0
 schedule==0.4.3
 six==1.8.0
 spidev==3.0
