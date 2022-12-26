@@ -23,5 +23,5 @@ schedule==0.4.3
 six==1.8.0
 spidev==3.0
 urllib3==1.9.1
-wheel==0.24.0
+wheel==0.38.1
 wsgiref==0.1.2
